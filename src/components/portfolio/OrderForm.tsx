@@ -47,7 +47,11 @@ export const OrderForm = () => {
     try {
       const { data: userData } = await supabase.auth.getUser();
       const { error } = await supabase.from("orders").insert([{
-        ...parsed.data,
+        customer_name: parsed.data.customer_name,
+        customer_email: parsed.data.customer_email,
+        order_type: parsed.data.order_type,
+        budget: parsed.data.budget,
+        description: parsed.data.description,
         user_id: userData.user?.id ?? undefined,
       }]);
       if (error) throw error;
