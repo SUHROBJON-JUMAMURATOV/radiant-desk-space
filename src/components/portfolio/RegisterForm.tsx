@@ -10,7 +10,7 @@ import { CheckCircle2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLang } from "@/hooks/useLang";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
-import googleLogo from "@/assets/google-logo.svg";
+import googleLogo from "@/assets/google-logo.png";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(60),
