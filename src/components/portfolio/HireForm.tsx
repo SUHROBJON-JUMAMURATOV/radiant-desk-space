@@ -51,14 +51,31 @@ export const HireForm = () => {
     }
     setErrors({});
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setDone(true);
-    toast.success("Application sent!", { description: "I'll get back to you within 24h." });
-    setData({ name: "", email: "", projectType: "", message: "" });
-    setBudget([10000]);
-    setFile(null);
-    setTimeout(() => setDone(false), 2500);
+    try {
+      const fd = new FormData();
+      fd.append("form", "hire");
+      fd.append("name", data.name);
+      fd.append("email", data.email);
+      fd.append("projectType", data.projectType);
+      fd.append("message", data.message);
+      fd.append("budget", String(budget[0]));
+      fd.append("submittedAt", new Date().toISOString());
+      if (file) fd.append("attachment", file);
+      await fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
+        method: "POST",
+        body: fd,
+      });
+      setDone(true);
+      toast.success("Application sent!", { description: "I'll get back to you within 24h." });
+      setData({ name: "", email: "", projectType: "", message: "" });
+      setBudget([10000]);
+      setFile(null);
+      setTimeout(() => setDone(false), 2500);
+    } catch (err) {
+      toast.error("Failed to send", { description: "Please try again later." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
