@@ -46,10 +46,10 @@ export const OrderForm = () => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      const { error } = await supabase.from("orders").insert({
+      const { error } = await supabase.from("orders").insert([{
         ...parsed.data,
-        user_id: userData.user?.id ?? null,
-      });
+        user_id: userData.user?.id ?? undefined,
+      }]);
       if (error) throw error;
 
       fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
