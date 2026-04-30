@@ -16,6 +16,7 @@ export const Navbar = () => {
     { href: "#skills", label: t.nav.skills },
     { href: "#projects", label: t.nav.projects },
     { href: "#register", label: t.nav.register },
+    { href: "#order", label: "Zakaz" },
     { href: "#hire", label: t.nav.hire },
     { href: "#contact", label: t.nav.contact },
   ];
