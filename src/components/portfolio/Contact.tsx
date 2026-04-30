@@ -35,14 +35,21 @@ export const Contact = () => {
     }
     setErrors({});
     setLoading(true);
-    const mailto = `mailto:hello@alexcarter.dev?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`From: ${data.name} <${data.email}>\n\n${data.message}`)}`;
-    await new Promise((r) => setTimeout(r, 700));
-    window.location.href = mailto;
-    setLoading(false);
-    setDone(true);
-    toast.success("Message ready to send", { description: "Your mail app just opened." });
-    setData({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setDone(false), 2500);
+    try {
+      await fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ form: "contact", ...data, submittedAt: new Date().toISOString() }),
+      });
+      setDone(true);
+      toast.success("Message sent!", { description: "Thanks — I'll reply soon." });
+      setData({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setDone(false), 2500);
+    } catch (err) {
+      toast.error("Failed to send", { description: "Please try again later." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

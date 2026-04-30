@@ -43,12 +43,27 @@ export const RegisterForm = () => {
     }
     setErrors({});
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 900));
-    setLoading(false);
-    setDone(true);
-    toast.success("Welcome aboard!", { description: "Your account has been created." });
-    setData({ name: "", email: "", password: "" });
-    setTimeout(() => setDone(false), 2500);
+    try {
+      await fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          form: "register",
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+      setDone(true);
+      toast.success("Welcome aboard!", { description: "Your account has been created." });
+      setData({ name: "", email: "", password: "" });
+      setTimeout(() => setDone(false), 2500);
+    } catch (err) {
+      toast.error("Failed to register", { description: "Please try again later." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
