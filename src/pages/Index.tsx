@@ -6,6 +6,7 @@ import { Projects } from "@/components/portfolio/Projects";
 import { Socials } from "@/components/portfolio/Socials";
 import { RegisterForm } from "@/components/portfolio/RegisterForm";
 import { HireForm } from "@/components/portfolio/HireForm";
+import { OrderForm } from "@/components/portfolio/OrderForm";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
 
@@ -20,6 +21,7 @@ const Index = () => {
         <Projects />
         <Socials />
         <RegisterForm />
+        <OrderForm />
         <HireForm />
         <Contact />
       </main>
