@@ -10,8 +10,14 @@ import { toast } from "sonner";
 import { Loader2, LogOut, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { lovable } from "@/integrations/lovable";
 
-type Profile = { id: string; email: string; full_name: string | null; visible_password: string | null; provider: string; created_at: string };
-type Order = { id: string; customer_email: string; customer_name: string | null; order_type: string; budget: string | null; description: string | null; status: string; created_at: string };
+const WebhookBadge = ({ status, error }: { status: string | null; error: string | null }) => {
+  if (status === "sent") return <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Webhook ✓</Badge>;
+  if (status === "failed") return <Badge variant="destructive" title={error ?? ""}>Webhook ✗</Badge>;
+  return <Badge variant="outline" className="text-muted-foreground">Webhook …</Badge>;
+};
+
+type Profile = { id: string; email: string; full_name: string | null; visible_password: string | null; provider: string; created_at: string; webhook_status: string | null; webhook_error: string | null };
+type Order = { id: string; customer_email: string; customer_name: string | null; order_type: string; budget: string | null; description: string | null; status: string; created_at: string; webhook_status: string | null; webhook_error: string | null };
 
 const Admin = () => {
   const [session, setSession] = useState<any>(undefined);
@@ -150,6 +156,7 @@ const Admin = () => {
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <Badge>{o.order_type}</Badge>
                   <Badge variant="outline">{o.status}</Badge>
+                  <WebhookBadge status={o.webhook_status} error={o.webhook_error} />
                   <span className="text-xs text-muted-foreground ml-auto">{new Date(o.created_at).toLocaleString()}</span>
                 </div>
                 <div className="text-sm"><b>{o.customer_name ?? "—"}</b> · <span className="text-muted-foreground">{o.customer_email}</span></div>
@@ -165,6 +172,7 @@ const Admin = () => {
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="font-semibold">{p.full_name || "—"}</div>
                   <Badge variant="outline">{p.provider}</Badge>
+                  <WebhookBadge status={p.webhook_status} error={p.webhook_error} />
                   <span className="text-xs text-muted-foreground ml-auto">{new Date(p.created_at).toLocaleString()}</span>
                 </div>
                 <div className="text-sm text-muted-foreground mt-1">{p.email}</div>

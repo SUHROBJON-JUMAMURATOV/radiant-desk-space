@@ -46,25 +46,29 @@ export const OrderForm = () => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      const { error } = await supabase.from("orders").insert([{
+      const { data: inserted, error } = await supabase.from("orders").insert([{
         customer_name: parsed.data.customer_name,
         customer_email: parsed.data.customer_email,
         order_type: parsed.data.order_type,
         budget: parsed.data.budget,
         description: parsed.data.description,
         user_id: userData.user?.id ?? undefined,
-      }]);
+      }]).select("id").single();
       if (error) throw error;
 
-      fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          form: "order",
-          ...parsed.data,
-          submittedAt: new Date().toISOString(),
-        }),
-      }).catch(() => {});
+      if (inserted) {
+        supabase.functions.invoke("forward-webhook", {
+          body: {
+            table: "orders",
+            row_id: inserted.id,
+            payload: {
+              form: "order",
+              ...parsed.data,
+              submittedAt: new Date().toISOString(),
+            },
+          },
+        }).catch(() => {});
+      }
 
       setDone(true);
       toast.success("Zakaz yuborildi!", { description: "Tez orada bog'lanaman." });
