@@ -25,6 +25,8 @@ export type Database = {
           order_type: string
           status: string
           user_id: string | null
+          webhook_error: string | null
+          webhook_status: string | null
         }
         Insert: {
           budget?: string | null
@@ -36,6 +38,8 @@ export type Database = {
           order_type: string
           status?: string
           user_id?: string | null
+          webhook_error?: string | null
+          webhook_status?: string | null
         }
         Update: {
           budget?: string | null
@@ -47,6 +51,8 @@ export type Database = {
           order_type?: string
           status?: string
           user_id?: string | null
+          webhook_error?: string | null
+          webhook_status?: string | null
         }
         Relationships: []
       }
@@ -58,6 +64,8 @@ export type Database = {
           id: string
           provider: string
           visible_password: string | null
+          webhook_error: string | null
+          webhook_status: string | null
         }
         Insert: {
           created_at?: string
@@ -66,6 +74,8 @@ export type Database = {
           id: string
           provider?: string
           visible_password?: string | null
+          webhook_error?: string | null
+          webhook_status?: string | null
         }
         Update: {
           created_at?: string
@@ -74,6 +84,8 @@ export type Database = {
           id?: string
           provider?: string
           visible_password?: string | null
+          webhook_error?: string | null
+          webhook_status?: string | null
         }
         Relationships: []
       }
