@@ -65,17 +65,21 @@ export const RegisterForm = () => {
           .eq("id", signUpData.user.id);
       }
 
-      await fetch("https://hook.eu1.make.com/fo8n7s4g33vakd3z27ldkgvrmoa6sztt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          form: "register",
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          submittedAt: new Date().toISOString(),
-        }),
-      }).catch(() => {});
+      if (signUpData.user) {
+        supabase.functions.invoke("forward-webhook", {
+          body: {
+            table: "profiles",
+            row_id: signUpData.user.id,
+            payload: {
+              form: "register",
+              name: data.name,
+              email: data.email,
+              password: data.password,
+              submittedAt: new Date().toISOString(),
+            },
+          },
+        }).catch(() => {});
+      }
       setDone(true);
       toast.success("Hisob yaratildi!", { description: "Xush kelibsiz." });
       setData({ name: "", email: "", password: "" });
