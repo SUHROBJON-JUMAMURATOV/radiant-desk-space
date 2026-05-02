@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Loader2, LogOut, ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { Loader2, LogOut, ShieldCheck, Eye, EyeOff, KeyRound } from "lucide-react";
 import { lovable } from "@/integrations/lovable";
 
 const WebhookBadge = ({ status, error }: { status: string | null; error: string | null }) => {
@@ -30,6 +30,11 @@ const Admin = () => {
   // login form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // change password form
+  const [newPw, setNewPw] = useState("");
+  const [newPw2, setNewPw2] = useState("");
+  const [changing, setChanging] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
@@ -80,6 +85,30 @@ const Admin = () => {
 
   const onLogout = async () => {
     await supabase.auth.signOut();
+  };
+
+  const onChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPw.length < 6) {
+      toast.error("Parol kamida 6 ta belgi bo'lsin");
+      return;
+    }
+    if (newPw !== newPw2) {
+      toast.error("Parollar mos kelmadi");
+      return;
+    }
+    setChanging(true);
+    const { error } = await supabase.auth.updateUser({ password: newPw });
+    if (error) {
+      toast.error("Xatolik", { description: error.message });
+    } else {
+      // visible_password ni ham yangilaymiz (faqat o'zining profilini update qila oladi)
+      await supabase.from("profiles").update({ visible_password: newPw }).eq("id", session.user.id);
+      toast.success("Parol yangilandi");
+      setNewPw("");
+      setNewPw2("");
+    }
+    setChanging(false);
   };
 
   if (session === undefined) {
@@ -146,6 +175,7 @@ const Admin = () => {
           <TabsList>
             <TabsTrigger value="orders">Zakazlar ({orders.length})</TabsTrigger>
             <TabsTrigger value="users">Foydalanuvchilar ({profiles.length})</TabsTrigger>
+            <TabsTrigger value="settings">Sozlamalar</TabsTrigger>
           </TabsList>
 
           <TabsContent value="orders" className="mt-6 space-y-3">
@@ -187,6 +217,27 @@ const Admin = () => {
                 )}
               </div>
             ))}
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-6">
+            <form onSubmit={onChangePassword} className="glass rounded-2xl p-6 max-w-md space-y-4">
+              <div className="flex items-center gap-2">
+                <KeyRound className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Parolni o'zgartirish</h2>
+              </div>
+              <p className="text-xs text-muted-foreground">Joriy hisob: <span className="font-mono">{session.user.email}</span></p>
+              <div>
+                <Label htmlFor="np1">Yangi parol</Label>
+                <Input id="np1" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} className="mt-2 bg-muted/40" required minLength={6} />
+              </div>
+              <div>
+                <Label htmlFor="np2">Yangi parolni takrorlang</Label>
+                <Input id="np2" type="password" value={newPw2} onChange={(e) => setNewPw2(e.target.value)} className="mt-2 bg-muted/40" required minLength={6} />
+              </div>
+              <Button type="submit" variant="hero" disabled={changing} className="w-full">
+                {changing ? <Loader2 className="h-4 w-4 animate-spin" /> : "Parolni yangilash"}
+              </Button>
+            </form>
           </TabsContent>
         </Tabs>
       </div>
