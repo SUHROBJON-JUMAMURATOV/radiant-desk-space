@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Loader2, LogOut, ShieldCheck, Eye, EyeOff, KeyRound } from "lucide-react";
-import { lovable } from "@/integrations/lovable";
 
 const WebhookBadge = ({ status, error }: { status: string | null; error: string | null }) => {
   if (status === "sent") return <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Webhook ✓</Badge>;
@@ -79,10 +78,6 @@ const Admin = () => {
     setLoading(false);
   };
 
-  const onGoogle = async () => {
-    await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/admin" });
-  };
-
   const onLogout = async () => {
     await supabase.auth.signOut();
   };
@@ -133,9 +128,6 @@ const Admin = () => {
           </div>
           <Button type="submit" variant="hero" size="xl" className="w-full" disabled={loading}>
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Kirish"}
-          </Button>
-          <Button type="button" onClick={onGoogle} variant="ghostGlass" size="xl" className="w-full">
-            Google bilan kirish
           </Button>
         </form>
       </div>

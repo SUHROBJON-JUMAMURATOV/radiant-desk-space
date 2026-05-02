@@ -9,8 +9,6 @@ import { toast } from "sonner";
 import { CheckCircle2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLang } from "@/hooks/useLang";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
-import googleLogo from "@/assets/google-logo.png";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(60),
@@ -91,17 +89,6 @@ export const RegisterForm = () => {
     }
   };
 
-  const onGoogle = async () => {
-    setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error("Google bilan kirib bo'lmadi", { description: String(result.error) });
-      setLoading(false);
-    }
-  };
-
   return (
     <section id="register" className="relative py-24 md:py-32">
       <div className="container">
@@ -167,16 +154,6 @@ export const RegisterForm = () => {
             ) : (
               t.register.submit
             )}
-          </Button>
-
-          <div className="relative my-2">
-            <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
-            <div className="relative flex justify-center"><span className="bg-background px-3 text-xs text-muted-foreground uppercase tracking-wider">yoki</span></div>
-          </div>
-
-          <Button type="button" onClick={onGoogle} variant="ghostGlass" size="xl" className="w-full" disabled={loading}>
-            <img src={googleLogo} alt="Google" className="h-5 w-5" />
-            Google bilan davom etish
           </Button>
         </motion.form>
       </div>
