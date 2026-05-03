@@ -2,8 +2,13 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+// Fallback qiymatlar — Render kabi tashqi hosting'da env vars o'rnatilmagan bo'lsa ham ishlashi uchun.
+// Bu publishable (anon) kalit — ommaviy va xavfsiz.
+const SUPABASE_URL =
+  import.meta.env.VITE_SUPABASE_URL || "https://eyttbyuxyznakvixxcyq.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dHRieXV4eXpuYWt2aXh4Y3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1Njc1MjEsImV4cCI6MjA5MzE0MzUyMX0.zZBAAKWVQ649CDIimmdh883sb9tcHXJ-BiNEjJpUkAA";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
