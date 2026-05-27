@@ -3,7 +3,7 @@ import { useLang } from "@/hooks/useLang";
 
 const socials = [
   { Icon: Send, href: "https://t.me/suhrob_O775", label: "Telegram" },
-  { Icon: Instagram, href: "https://www.instagram.com/xamzayevich.o7?utm_source=qr", label: "Instagram" },
+  { Icon: Instagram, href: "https://www.instagram.com/xamzayevich.o7/", label: "Instagram" },
   { Icon: Github, href: "https://github.com/", label: "GitHub" },
   { Icon: Linkedin, href: "https://linkedin.com/", label: "LinkedIn" },
 ];
