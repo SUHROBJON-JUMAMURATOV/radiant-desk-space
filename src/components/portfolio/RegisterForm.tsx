@@ -104,7 +104,6 @@ export const RegisterForm = () => {
 
       <div className="container">
         <SectionTitle
-          eyebrow="Tezkor zakaz"
           title="Loyihangizni hoziroq boshlang"
           subtitle="Bir necha soniyada zakaz yuboring — tez orada bog'lanaman."
         />
