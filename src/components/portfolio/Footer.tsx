@@ -2,7 +2,7 @@ import { Github, Instagram, Linkedin, Send, Code2 } from "lucide-react";
 import { useLang } from "@/hooks/useLang";
 
 const socials = [
-  { Icon: Send, href: "https://t.me/", label: "Telegram" },
+  { Icon: Send, href: "https://t.me/suhrob_O775", label: "Telegram" },
   { Icon: Instagram, href: "https://instagram.com/", label: "Instagram" },
   { Icon: Github, href: "https://github.com/", label: "GitHub" },
   { Icon: Linkedin, href: "https://linkedin.com/", label: "LinkedIn" },
