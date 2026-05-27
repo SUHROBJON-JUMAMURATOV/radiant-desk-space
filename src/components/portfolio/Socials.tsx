@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useLang } from "@/hooks/useLang";
 
 const socials = [
-  { name: "Telegram", href: "https://t.me/", Icon: Send, color: "primary", handle: "@Suhrob_0775" },
+  { name: "Telegram", href: "https://t.me/suhrob_O775", Icon: Send, color: "primary", handle: "@suhrob_O775" },
   { name: "Instagram", href: "https://instagram.com/", Icon: Instagram, color: "accent", handle: "@SUHROB_PROGRAMMER" },
   { name: "GitHub", href: "https://github.com/", Icon: Github, color: "secondary", handle: "SUHROB-JUMAMURATOV" },
   { name: "LinkedIn", href: "https://linkedin.com/", Icon: Linkedin, color: "primary", handle: "Suhrob_Developer" },
